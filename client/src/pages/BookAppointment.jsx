@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import './BookAppointment.css';
+import './AdminDashboard.css';
 
 export default function BookAppointment() {
   const [clinics, setClinics] = useState([]);
@@ -107,77 +109,108 @@ const [hasCheckedSlots, setHasCheckedSlots] = useState(false);
   return (
     <div className="container">
       {/* Header and Logout */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div className="admin-header" style={{ marginBottom: '1.5rem' }}>
         <h2 className="title">📅 Book Appointment</h2>
-        <button onClick={handleLogout} style={{ backgroundColor: 'red', color: 'white' }}>
+        <button 
+          onClick={handleLogout} 
+          className="admin-logout"
+        >
           🚪 Logout
         </button>
       </div>
 
       {hasCheckedSlots && form.doctor && form.date && slots.length === 0 && !error && (
-  <p style={{ color: 'orange' }}>⚠️ No available slots for this doctor on selected date.</p>
-)}
+        <div className="auth-error">
+          <span>⚠️ No available slots for this doctor on selected date.</span>
+        </div>
+      )}
 
+      <div className="booking-form">
+        {/* Clinic Selection */}
+        <div className="form-group">
+          <label htmlFor="clinic-select">🏥 Select Clinic</label>
+          <select
+            id="clinic-select"
+            value={form.clinic}
+            onChange={(e) => {
+              const clinicId = e.target.value;
+              setForm({ ...form, clinic: clinicId, doctor: '', time: '' });
+              if (clinicId) fetchDoctors(clinicId);
+            }}
+          >
+            <option value="">-- Select Clinic --</option>
+            {clinics.map(c => (
+              <option key={c._id} value={c._id}>{c.name}</option>
+            ))}
+          </select>
+        </div>
 
-      {/* Clinic Selection */}
-      <label>🏥 Select Clinic</label>
-      <select
-        value={form.clinic}
-        onChange={(e) => {
-          const clinicId = e.target.value;
-          setForm({ ...form, clinic: clinicId, doctor: '', time: '' });
-          if (clinicId) fetchDoctors(clinicId);
-        }}
-      >
-        <option value="">-- Select Clinic --</option>
-        {clinics.map(c => (
-          <option key={c._id} value={c._id}>{c.name}</option>
-        ))}
-      </select>
+        {/* Doctor Selection */}
+        <div className="form-group">
+          <label htmlFor="doctor-select">👨‍⚕️ Select Doctor</label>
+          <select
+            id="doctor-select"
+            value={form.doctor}
+            onChange={(e) => setForm({ ...form, doctor: e.target.value, time: '' })}
+            disabled={!doctors.length}
+          >
+            <option value="">-- Select Doctor --</option>
+            {doctors.map(d => (
+              <option key={d._id} value={d._id}>{d.name}</option>
+            ))}
+          </select>
+        </div>
 
-      {/* Doctor Selection */}
-      <label>👨‍⚕️ Select Doctor</label>
-      <select
-        value={form.doctor}
-        onChange={(e) => setForm({ ...form, doctor: e.target.value, time: '' })}
-        disabled={!doctors.length}
-      >
-        <option value="">-- Select Doctor --</option>
-        {doctors.map(d => (
-          <option key={d._id} value={d._id}>{d.name}</option>
-        ))}
-      </select>
+        {/* Date Selection */}
+        <div className="form-group">
+          <label htmlFor="date-input">📆 Select Date</label>
+          <input
+            id="date-input"
+            type="date"
+            value={form.date}
+            onChange={(e) => setForm({ ...form, date: e.target.value, time: '' })}
+          />
+        </div>
 
-      {/* Date Selection */}
-      <label>📆 Select Date</label>
-      <input
-        type="date"
-        value={form.date}
-        onChange={(e) => setForm({ ...form, date: e.target.value, time: '' })}
-      />
+        {/* Slot Fetch Button */}
+        <div className="form-group">
+          <button 
+            onClick={fetchSlots} 
+            disabled={!form.doctor || !form.date}
+            className="btn"
+          >
+            🔍 Check Slots
+          </button>
+        </div>
 
-      {/* Slot Fetch Button */}
-      <button onClick={fetchSlots} disabled={!form.doctor || !form.date}>
-        🔍 Check Slots
-      </button>
+        {/* Time Slot Selection */}
+        <div className="form-group">
+          <label htmlFor="time-select">⏰ Select Time Slot</label>
+          <select
+            id="time-select"
+            value={form.time}
+            onChange={(e) => setForm({ ...form, time: e.target.value })}
+            disabled={!slots.length}
+          >
+            <option value="">-- Select Time Slot --</option>
+            {slots.map((s, i) => (
+              <option key={i} value={s}>{s}</option>
+            ))}
+          </select>
+        </div>
 
-      {/* Time Slot Selection */}
-      <label>⏰ Select Time Slot</label>
-      <select
-        value={form.time}
-        onChange={(e) => setForm({ ...form, time: e.target.value })}
-        disabled={!slots.length}
-      >
-        <option value="">-- Select Time Slot --</option>
-        {slots.map((s, i) => (
-          <option key={i} value={s}>{s}</option>
-        ))}
-      </select>
-
-      {/* Submit Button */}
-      <button onClick={bookAppointment} style={{ marginTop: '1rem' }}>
-        ✅ Confirm Booking
-      </button>
+        {/* Submit Button */}
+        <div className="form-group">
+          <button 
+            onClick={bookAppointment} 
+            className="btn"
+            style={{ backgroundColor: '#28a745' }}
+            disabled={!form.clinic || !form.doctor || !form.date || !form.time}
+          >
+            ✅ Confirm Booking
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

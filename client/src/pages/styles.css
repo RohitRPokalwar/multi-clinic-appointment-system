@@ -1,12 +1,29 @@
+body {
+  background-color: #121212;
+  background-image: url('./auth-background.svg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow-x: hidden;
+}
+
 .container {
-  max-width: 600px;
+  max-width: 800px;
   margin: auto;
   padding: 2rem;
   text-align: center;
-  background: #121212;
+  background: rgba(20, 20, 40, 0.8);
   color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 0 12px #000;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  width: 100%;
 }
 
 .title {
@@ -23,24 +40,228 @@
 
 .btn {
   padding: 0.75rem 1.5rem;
-  background-color: #007bff;
+  background-color: #00d1b2;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: inline-block;
 }
 
-select, input[type="date"] {
+.btn:hover {
+  background-color: #00b89c;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+select, input[type="date"], input[type="text"], input[type="email"], input[type="password"] {
   margin: 0.5rem 0;
-  padding: 0.5rem;
+  padding: 0.75rem 1rem;
   width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: #fff;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+select:focus, input:focus {
+  outline: none;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-color: #00d1b2;
+  box-shadow: 0 0 0 2px rgba(0, 209, 178, 0.3);
+}
+
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.5em;
+}
+
+select option {
+  background-color: #2a2a72;
+  color: white;
 }
 
 button {
   margin-top: 1rem;
   padding: 0.75rem 1.5rem;
-  background: green;
+  background-color: #00d1b2;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+  background-color: #00b89c;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+button:disabled {
+  background-color: rgba(0, 209, 178, 0.6);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Doctor List Styles */
+.doctor-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.doctor-card {
+  background: #1e1e1e;
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.doctor-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.doctor-avatar {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.doctor-card h3 {
+  margin: 0.5rem 0;
+  color: #fff;
+}
+
+.doctor-card p {
+  margin: 0.5rem 0;
+  color: #aaa;
+}
+
+.clinic-filter {
+  margin: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.clinic-filter label {
+  margin-bottom: 0.5rem;
+}
+
+.clinic-filter select {
+  padding: 0.5rem;
+  border-radius: 4px;
+  background: #2a2a2a;
+  color: white;
+  border: 1px solid #444;
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 1rem;
+}
+
+.error {
+  color: #ff6b6b;
+  margin: 1rem 0;
+}
+
+.back-link {
+  margin-top: 2rem;
+}
+
+/* Responsive adjustments */
+/* Large screens (laptops and desktops) */
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1000px;
+    padding: 3rem;
+  }
+  
+  .title {
+    font-size: 2.5rem;
+  }
+  
+  .btn {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+  }
+}
+
+/* Medium screens (laptops) */
+@media (max-width: 1200px) {
+  .container {
+    max-width: 90%;
+  }
+}
+
+/* Small screens (tablets) */
+@media (max-width: 768px) {
+  .container {
+    padding: 1.5rem;
+  }
+  
+  .title {
+    font-size: 1.8rem;
+  }
+  
+  .btn-group {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  
+  .btn {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .doctor-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Extra small screens (mobile) */
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+  
+  .container {
+    padding: 1.2rem;
+    margin: 0.5rem auto;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  select, input[type="date"], input[type="text"], input[type="email"], input[type="password"] {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9rem;
+  }
+  
+  button {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
 }

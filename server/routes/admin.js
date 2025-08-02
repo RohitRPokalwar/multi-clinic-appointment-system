@@ -54,6 +54,7 @@ router.delete('/clinics/:id', async (req, res) => {
 router.post('/doctors', async (req, res) => {
   try {
     const { name, email, password, clinicId } = req.body;
+    console.log('Adding doctor with data:', { name, email, clinicId });
 
     if (!name || !email || !password || !clinicId) {
       return res.status(400).json({ error: 'All fields required' });
@@ -74,6 +75,7 @@ router.post('/doctors', async (req, res) => {
       clinic: clinicId,
     });
 
+    console.log('Doctor created successfully:', doctor);
     res.status(201).json({ message: 'Doctor registered successfully', doctor });
   } catch (err) {
     console.error('Error adding doctor:', err);
@@ -86,7 +88,9 @@ router.post('/doctors', async (req, res) => {
 // ==========================
 router.get('/doctors', async (req, res) => {
   try {
+    console.log('Fetching all doctors');
     const doctors = await User.find({ role: 'doctor' }).populate('clinic', 'name');
+    console.log('Found all doctors:', doctors.length, doctors);
     res.json(doctors);
   } catch (err) {
     console.error('Error fetching doctors:', err);
@@ -103,11 +107,24 @@ router.get('/doctors', async (req, res) => {
 router.get('/clinics/:clinicId/doctors', async (req, res) => {
   try {
     const clinicId = req.params.clinicId;
-    const doctors = await User.find({  role: 'doctor' }); // You can filter by clinic later
+    console.log('Fetching doctors for clinic ID:', clinicId);
+    
+    // Validate clinicId is a valid ObjectId
+    if (!mongoose.Types.ObjectId.isValid(clinicId)) {
+      return res.status(400).json({ error: 'Invalid clinic ID format' });
+    }
+    
+    // Find doctors that belong to the specified clinic
+    const doctors = await User.find({ 
+      role: 'doctor',
+      clinic: clinicId 
+    }).populate('clinic', 'name');
+    
+    console.log('Found doctors for clinic:', doctors.length, doctors);
     res.json(doctors);
   } catch (err) {
-    console.error('Error fetching doctors:', err);
-    res.status(500).json({ error: 'Failed to get doctors' });
+    console.error('Error fetching doctors for clinic:', err);
+    res.status(500).json({ error: 'Failed to get doctors for this clinic' });
   }
 });
 
