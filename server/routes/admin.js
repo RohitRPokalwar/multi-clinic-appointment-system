@@ -40,11 +40,18 @@ router.post('/clinics', async (req, res) => {
 
 router.delete('/clinics/:id', async (req, res) => {
   try {
-    await Clinic.findByIdAndDelete(req.params.id);
-    res.json({ message: 'Clinic deleted' });
+    console.log('Deleting clinic with ID:', req.params.id);
+    const result = await Clinic.findByIdAndDelete(req.params.id);
+    console.log('Delete clinic result:', result);
+    
+    if (!result) {
+      return res.status(404).json({ error: 'Clinic not found' });
+    }
+    
+    res.json({ message: 'Clinic deleted', deletedClinic: result });
   } catch (err) {
     console.error('Error deleting clinic:', err);
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: 'Server error', details: err.message });
   }
 });
 
@@ -53,8 +60,8 @@ router.delete('/clinics/:id', async (req, res) => {
 // ==========================
 router.post('/doctors', async (req, res) => {
   try {
-    const { name, email, password, clinicId } = req.body;
-    console.log('Adding doctor with data:', { name, email, clinicId });
+    const { name, email, password, clinicId, speciality } = req.body;
+    console.log('Adding doctor with data:', { name, email, clinicId, speciality });
 
     if (!name || !email || !password || !clinicId) {
       return res.status(400).json({ error: 'All fields required' });
@@ -73,6 +80,7 @@ router.post('/doctors', async (req, res) => {
       password: hashedPassword,
       role: 'doctor',
       clinic: clinicId,
+      speciality
     });
 
     console.log('Doctor created successfully:', doctor);
@@ -94,6 +102,25 @@ router.get('/doctors', async (req, res) => {
     res.json(doctors);
   } catch (err) {
     console.error('Error fetching doctors:', err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// ==========================
+// ✅ GET SINGLE DOCTOR
+// ==========================
+router.get('/doctors/:id', async (req, res) => {
+  try {
+    const doctorId = req.params.id;
+    const doctor = await User.findById(doctorId).populate('clinic', 'name');
+    
+    if (!doctor || doctor.role !== 'doctor') {
+      return res.status(404).json({ error: 'Doctor not found' });
+    }
+    
+    res.json(doctor);
+  } catch (err) {
+    console.error('Error fetching doctor:', err);
     res.status(500).json({ error: 'Server error' });
   }
 });
@@ -168,11 +195,18 @@ router.put('/clinics/:id', async (req, res) => {
 // ==========================
 router.delete('/doctors/:id', async (req, res) => {
   try {
-    await User.findByIdAndDelete(req.params.id);
-    res.json({ message: 'Doctor deleted successfully' });
+    console.log('Deleting doctor with ID:', req.params.id);
+    const result = await User.findByIdAndDelete(req.params.id);
+    console.log('Delete doctor result:', result);
+    
+    if (!result) {
+      return res.status(404).json({ error: 'Doctor not found' });
+    }
+    
+    res.json({ message: 'Doctor deleted successfully', deletedDoctor: result });
   } catch (err) {
     console.error('Error deleting doctor:', err);
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: 'Server error', details: err.message });
   }
 });
 
@@ -181,9 +215,10 @@ router.delete('/doctors/:id', async (req, res) => {
 // ==========================
 router.put('/doctors/:id', async (req, res) => {
   try {
-    const { name, email, clinicId } = req.body;
+    const { name, email, clinicId, speciality } = req.body;
     const updateData = { name, email };
     if (clinicId) updateData.clinic = clinicId;
+    if (speciality) updateData.speciality = speciality;
     
     const updatedDoctor = await User.findByIdAndUpdate(
       req.params.id,
@@ -203,11 +238,18 @@ router.put('/doctors/:id', async (req, res) => {
 // ==========================
 router.delete('/appointments/:id', async (req, res) => {
   try {
-    await Appointment.findByIdAndDelete(req.params.id);
-    res.json({ message: 'Appointment deleted successfully' });
+    console.log('Deleting appointment with ID:', req.params.id);
+    const result = await Appointment.findByIdAndDelete(req.params.id);
+    console.log('Delete appointment result:', result);
+    
+    if (!result) {
+      return res.status(404).json({ error: 'Appointment not found' });
+    }
+    
+    res.json({ message: 'Appointment deleted successfully', deletedAppointment: result });
   } catch (err) {
     console.error('Error deleting appointment:', err);
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: 'Server error', details: err.message });
   }
 });
 

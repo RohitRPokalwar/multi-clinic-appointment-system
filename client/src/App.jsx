@@ -8,6 +8,7 @@ import BookAppointment from './pages/BookAppointment';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import AdminDashboard from './pages/AdminDashboard';
+import ProtectedRoute from './components/ProtectedRoute';
 
 import DoctorDashboard from './pages/DoctorDashboard'; // ✅ real one
 import DoctorSlotManager from './pages/DoctorSlotManager'; // ✅ real one
@@ -34,16 +35,16 @@ export default function App() {
         <Route path="/register" element={<RegisterPage />} />
 
         {/* Patient */}
-        <Route path="/patient/dashboard" element={<PatientDashboard />} />
-        <Route path="/patient/book" element={<BookAppointment />} />
-        <Route path="/patient/my" element={<MyAppointments />} />
+        <Route path="/patient/dashboard" element={<ProtectedRoute element={<PatientDashboard />} requiredRole="patient" />} />
+        <Route path="/patient/book" element={<ProtectedRoute element={<BookAppointment />} requiredRole="patient" />} />
+        <Route path="/patient/my" element={<ProtectedRoute element={<MyAppointments />} requiredRole="patient" />} />
 
         {/* Doctor */}
-        <Route path="/doctor/dashboard" element={<DoctorDashboard />} />
-        <Route path="/doctor/slots" element={<DoctorSlotManager />} />
+        <Route path="/doctor/dashboard" element={<ProtectedRoute element={<DoctorDashboard />} requiredRole="doctor" />} />
+        <Route path="/doctor/slots" element={<ProtectedRoute element={<DoctorSlotManager />} requiredRole="doctor" />} />
 
         {/* Admin */}
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/dashboard" element={<ProtectedRoute element={<AdminDashboard />} requiredRole="admin" />} />
 
         {/* Fallback */}
         <Route path="*" element={<NotFound />} />

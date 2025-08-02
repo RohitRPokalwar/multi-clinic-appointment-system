@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const appointmentRoutes = require('./routes/appointment');
 const authRoutes = require('./routes/auth');
+const { verifyToken } = require('./middleware/auth');
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -12,7 +13,8 @@ app.use(cors());
 app.use(express.json());
 app.use('/api/doctor', require('./routes/doctor'));
 app.use('/api/auth', require('./routes/auth'));
-app.use('/api/admin', require('./routes/admin'));
+// Apply verifyToken middleware to admin routes
+app.use('/api/admin', verifyToken, require('./routes/admin'));
 app.use('/api/appointments', require('./routes/appointment'));
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api', authRoutes); // ✅ So /api/register will work

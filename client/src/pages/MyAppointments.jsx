@@ -17,8 +17,16 @@ export default function MyAppointments() {
       <h2 className="title">My Appointments</h2>
       <ul>
         {appointments.map(a => (
-          <li key={a._id}>{a.date} {a.time} with {a.doctor?.name}
-            <button onClick={() => cancel(a._id)}>Cancel</button>
+          <li key={a._id} style={{ marginBottom: '15px', padding: '10px', border: '1px solid #ddd', borderRadius: '5px' }}>
+            <div><strong>Date:</strong> {a.date} at {a.time}</div>
+            <div><strong>Doctor:</strong> {a.doctor?.name} {a.doctor?.speciality ? `- ${a.doctor.speciality}` : ''}</div>
+            <div><strong>Clinic:</strong> {a.clinic?.name || 'N/A'}</div>
+            <button 
+              onClick={() => cancel(a._id)} 
+              style={{ marginTop: '10px', padding: '5px 10px', backgroundColor: '#dc3545', color: 'white', border: 'none', borderRadius: '3px', cursor: 'pointer' }}
+            >
+              Cancel Appointment
+            </button>
           </li>
         ))}
       </ul>

@@ -10,7 +10,7 @@ export default function AdminDashboard() {
   const [doctors, setDoctors] = useState([]);
   const [appointments, setAppointments] = useState([]);
   const [clinicForm, setClinicForm] = useState({ name: '', address: '' });
-  const [doctorForm, setDoctorForm] = useState({ name: '', email: '', password: '', clinicId: '' });
+  const [doctorForm, setDoctorForm] = useState({ name: '', email: '', password: '', clinicId: '', speciality: '' });
   const [selectedClinic, setSelectedClinic] = useState('');
   const [activeTab, setActiveTab] = useState('overview');
   const [editingClinic, setEditingClinic] = useState(null);
@@ -68,7 +68,7 @@ export default function AdminDashboard() {
     }
   };
 const addDoctor = async () => {
-  const { name, email, password, clinicId } = doctorForm;
+  const { name, email, password, clinicId, speciality } = doctorForm;
   console.log('Adding doctor with form data:', doctorForm);
 
   if (!name || !email || !password || !clinicId) {
@@ -77,19 +77,20 @@ const addDoctor = async () => {
   }
 
   try {
-    console.log('Sending doctor to server:', { name, email, clinicId });
+    console.log('Sending doctor to server:', { name, email, clinicId, speciality });
     const response = await API.post('/admin/doctors', {
       name,
       email,
       password,
       clinicId: clinicId,
+      speciality: speciality
     });
     
     console.log('Server response for doctor creation:', response.data);
     alert('Doctor registered!');
     
     // Reset form
-    setDoctorForm({ name: '', email: '', password: '', clinicId: '' });
+    setDoctorForm({ name: '', email: '', password: '', clinicId: '', speciality: '' });
     
     // Refresh the doctor list based on current filter
     if (selectedClinic) {
@@ -166,7 +167,9 @@ const addDoctor = async () => {
   // Edit functions
   const updateClinic = async (clinicId, updatedData) => {
     try {
-      await API.put(`/admin/clinics/${clinicId}`, updatedData);
+      console.log('Updating clinic with data:', updatedData);
+      const { name, address } = updatedData;
+      await API.put(`/admin/clinics/${clinicId}`, { name, address });
       alert('Clinic updated successfully');
       setEditingClinic(null);
       const clinicsResponse = await API.get('/admin/clinics');
@@ -179,7 +182,9 @@ const addDoctor = async () => {
 
   const updateDoctor = async (doctorId, updatedData) => {
     try {
-      await API.put(`/admin/doctors/${doctorId}`, updatedData);
+      console.log('Updating doctor with data:', updatedData);
+      const { name, email, speciality } = updatedData;
+      await API.put(`/admin/doctors/${doctorId}`, { name, email, speciality });
       alert('Doctor updated successfully');
       setEditingDoctor(null);
       // Refresh the doctor list based on current filter
@@ -327,15 +332,17 @@ const addDoctor = async () => {
                         className="admin-input"
                         defaultValue={clinic.name}
                         onBlur={(e) => {
-                          if (e.target.value !== clinic.name) {
-                            updateClinic(clinic._id, { ...clinic, name: e.target.value });
+                          const newName = e.target.value;
+                          if (newName !== clinic.name) {
+                            updateClinic(clinic._id, { name: newName, address: clinic.address });
                           } else {
                             setEditingClinic(null);
                           }
                         }}
-                        onKeyPress={(e) => {
+                        onKeyDown={(e) => {
                           if (e.key === 'Enter') {
-                            updateClinic(clinic._id, { ...clinic, name: e.target.value });
+                            const newName = e.target.value;
+                            updateClinic(clinic._id, { name: newName, address: clinic.address });
                           }
                         }}
                         autoFocus
@@ -344,13 +351,15 @@ const addDoctor = async () => {
                         className="admin-input"
                         defaultValue={clinic.address}
                         onBlur={(e) => {
-                          if (e.target.value !== clinic.address) {
-                            updateClinic(clinic._id, { ...clinic, address: e.target.value });
+                          const newAddress = e.target.value;
+                          if (newAddress !== clinic.address) {
+                            updateClinic(clinic._id, { name: clinic.name, address: newAddress });
                           }
                         }}
-                        onKeyPress={(e) => {
+                        onKeyDown={(e) => {
                           if (e.key === 'Enter') {
-                            updateClinic(clinic._id, { ...clinic, address: e.target.value });
+                            const newAddress = e.target.value;
+                            updateClinic(clinic._id, { name: clinic.name, address: newAddress });
                           }
                         }}
                       />
@@ -433,6 +442,14 @@ const addDoctor = async () => {
                   ))}
                 </select>
               </div>
+              <div>
+                <input 
+                  className="admin-input"
+                  placeholder="Speciality (e.g. Dermatology)" 
+                  value={doctorForm.speciality}
+                  onChange={e => setDoctorForm({ ...doctorForm, speciality: e.target.value })} 
+                />
+              </div>
               <div className="admin-form-full">
                 <button className="admin-button" onClick={addDoctor}>
                   <FaPlus /> Add Doctor
@@ -474,15 +491,17 @@ const addDoctor = async () => {
                           className="admin-input"
                           defaultValue={doctor.name}
                           onBlur={(e) => {
-                            if (e.target.value !== doctor.name) {
-                              updateDoctor(doctor._id, { ...doctor, name: e.target.value });
+                            const newName = e.target.value;
+                            if (newName !== doctor.name) {
+                              updateDoctor(doctor._id, { name: newName, email: doctor.email, speciality: doctor.speciality || '' });
                             } else {
                               setEditingDoctor(null);
                             }
                           }}
-                          onKeyPress={(e) => {
+                          onKeyDown={(e) => {
                             if (e.key === 'Enter') {
-                              updateDoctor(doctor._id, { ...doctor, name: e.target.value });
+                              const newName = e.target.value;
+                              updateDoctor(doctor._id, { name: newName, email: doctor.email, speciality: doctor.speciality || '' });
                             }
                           }}
                           autoFocus
@@ -491,13 +510,32 @@ const addDoctor = async () => {
                           className="admin-input"
                           defaultValue={doctor.email}
                           onBlur={(e) => {
-                            if (e.target.value !== doctor.email) {
-                              updateDoctor(doctor._id, { ...doctor, email: e.target.value });
+                            const newEmail = e.target.value;
+                            if (newEmail !== doctor.email) {
+                              updateDoctor(doctor._id, { name: doctor.name, email: newEmail, speciality: doctor.speciality || '' });
                             }
                           }}
-                          onKeyPress={(e) => {
+                          onKeyDown={(e) => {
                             if (e.key === 'Enter') {
-                              updateDoctor(doctor._id, { ...doctor, email: e.target.value });
+                              const newEmail = e.target.value;
+                              updateDoctor(doctor._id, { name: doctor.name, email: newEmail, speciality: doctor.speciality || '' });
+                            }
+                          }}
+                        />
+                        <input 
+                          className="admin-input"
+                          placeholder="Speciality"
+                          defaultValue={doctor.speciality || ''}
+                          onBlur={(e) => {
+                            const newSpeciality = e.target.value;
+                            if (newSpeciality !== doctor.speciality) {
+                              updateDoctor(doctor._id, { name: doctor.name, email: doctor.email, speciality: newSpeciality });
+                            }
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              const newSpeciality = e.target.value;
+                              updateDoctor(doctor._id, { name: doctor.name, email: doctor.email, speciality: newSpeciality });
                             }
                           }}
                         />
@@ -514,6 +552,7 @@ const addDoctor = async () => {
                         <h3>{doctor.name}</h3>
                         <p>Email: {doctor.email}</p>
                         <p>Clinic: {doctor.clinic?.name || 'Not assigned'}</p>
+                        <p>Speciality: {doctor.speciality || 'Not specified'}</p>
                         <div className="doctor-actions">
                           <button 
                             className="admin-button-secondary"

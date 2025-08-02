@@ -13,6 +13,7 @@ doctorRouter.get('/appointments', async (req, res) => {
 
     const appointments = await Appointment.find({ doctor: doctorId })
       .populate('patient', 'name')
+      .populate('doctor', 'name email speciality')
       .populate('clinic', 'name');
 
     res.json(appointments);

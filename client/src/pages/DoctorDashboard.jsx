@@ -21,10 +21,30 @@ export default function DoctorDashboard() {
     });
 }, [doctorId]);
 
+  // Get doctor info including speciality
+  const [doctorInfo, setDoctorInfo] = useState(null);
+
+  useEffect(() => {
+    if (doctorId) {
+      axios.get(`/api/admin/doctors/${doctorId}`)
+        .then(res => setDoctorInfo(res.data))
+        .catch(err => console.error('Error loading doctor info:', err));
+    }
+  }, [doctorId]);
+
   return (
     <div className="container">
       <h2 className="title">👨‍⚕️ Doctor Dashboard</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
+
+      {doctorInfo && (
+        <div className="doctor-info" style={{ marginBottom: '20px', padding: '15px', backgroundColor: 'rgba(0,0,0,0.1)', borderRadius: '8px' }}>
+          <h3>{doctorInfo.name}</h3>
+          <p>Email: {doctorInfo.email}</p>
+          <p>Speciality: <strong>{doctorInfo.speciality || 'Not specified'}</strong></p>
+          <p>Clinic: {doctorInfo.clinic?.name || 'Not assigned'}</p>
+        </div>
+      )}
 
       <Link to="/doctor/slots">
         <button>🛠️ Manage Available Slots</button>

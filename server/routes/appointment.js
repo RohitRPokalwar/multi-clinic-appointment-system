@@ -18,7 +18,7 @@ appointmentRouter.post('/', async (req, res) => {
 // Get appointments for a patient
 appointmentRouter.get('/mine/:patientId', async (req, res) => {
   const list = await AppointmentModel.find({ patient: req.params.patientId })
-    .populate('doctor', 'name')
+    .populate('doctor', 'name email speciality')
     .populate('clinic', 'name');
   res.json(list);
 });
