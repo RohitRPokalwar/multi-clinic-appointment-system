@@ -136,10 +136,77 @@ router.get('/appointments', async (req, res) => {
   try {
     const appointments = await Appointment.find()
       .populate('patient', 'name')
-      .populate('doctor', 'name');
+      .populate('doctor', 'name')
+      .populate('clinic', 'name');
     res.json(appointments);
   } catch (err) {
     console.error('Error fetching appointments:', err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// ==========================
+// ✅ UPDATE CLINIC
+// ==========================
+router.put('/clinics/:id', async (req, res) => {
+  try {
+    const { name, address } = req.body;
+    const updatedClinic = await Clinic.findByIdAndUpdate(
+      req.params.id,
+      { name, address },
+      { new: true }
+    );
+    res.json({ message: 'Clinic updated successfully', clinic: updatedClinic });
+  } catch (err) {
+    console.error('Error updating clinic:', err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// ==========================
+// ✅ DELETE DOCTOR
+// ==========================
+router.delete('/doctors/:id', async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Doctor deleted successfully' });
+  } catch (err) {
+    console.error('Error deleting doctor:', err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// ==========================
+// ✅ UPDATE DOCTOR
+// ==========================
+router.put('/doctors/:id', async (req, res) => {
+  try {
+    const { name, email, clinicId } = req.body;
+    const updateData = { name, email };
+    if (clinicId) updateData.clinic = clinicId;
+    
+    const updatedDoctor = await User.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      { new: true }
+    ).populate('clinic', 'name');
+    
+    res.json({ message: 'Doctor updated successfully', doctor: updatedDoctor });
+  } catch (err) {
+    console.error('Error updating doctor:', err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// ==========================
+// ✅ DELETE APPOINTMENT
+// ==========================
+router.delete('/appointments/:id', async (req, res) => {
+  try {
+    await Appointment.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Appointment deleted successfully' });
+  } catch (err) {
+    console.error('Error deleting appointment:', err);
     res.status(500).json({ error: 'Server error' });
   }
 });
