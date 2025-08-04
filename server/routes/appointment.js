@@ -1,18 +1,75 @@
 const mongoose = require('mongoose');
-
 const express = require('express');
 const AppointmentModel = require('../models/Appointment');
+const UserModel = require('../models/user');
+const DoctorModel = require('../models/doctor');
+const ClinicModel = require('../models/Clinic');
+const { sendAppointmentConfirmation } = require('../services/emailService');
+const { sendAppointmentConfirmation: sendAppointmentConfirmationBackup } = require('../services/emailServiceBackup');
 const appointmentRouter = express.Router();
 
 // Book appointment
 appointmentRouter.post('/', async (req, res) => {
-  const { patient, doctor, clinic, date, time } = req.body;
+  try {
+    const { patient, doctor, clinic, date, time } = req.body;
 
-  const exists = await AppointmentModel.findOne({ doctor, date, time });
-  if (exists) return res.status(409).json({ error: 'Slot already booked' });
+    const exists = await AppointmentModel.findOne({ doctor, date, time });
+    if (exists) return res.status(409).json({ error: 'Slot already booked' });
 
-  const appointment = await AppointmentModel.create({ patient, doctor, clinic, date, time });
-  res.json(appointment);
+    const appointment = await AppointmentModel.create({ patient, doctor, clinic, date, time });
+    
+    // Send confirmation email to patient
+    try {
+      // Get patient, doctor, and clinic details for email
+      const [patientData, doctorData, clinicData] = await Promise.all([
+        UserModel.findById(patient).select('name email'),
+        DoctorModel.findById(doctor).select('name'),
+        ClinicModel.findById(clinic).select('name')
+      ]);
+
+      if (patientData && patientData.email) {
+        const appointmentData = {
+          patientName: patientData.name,
+          doctorName: doctorData?.name || 'Doctor',
+          clinicName: clinicData?.name || 'Clinic',
+          date,
+          time
+        };
+
+        // Send email asynchronously (don't wait for it to complete)
+        sendAppointmentConfirmation(patientData.email, appointmentData)
+          .then(success => {
+            if (success) {
+              console.log('Appointment confirmation email sent successfully');
+            } else {
+              console.log('Primary email method failed, trying backup method...');
+              // Try backup email method
+              return sendAppointmentConfirmationBackup(patientData.email, appointmentData);
+            }
+          })
+          .then(success => {
+            if (success !== undefined) { // Only log if backup method was called
+              if (success) {
+                console.log('Appointment confirmation email sent successfully (backup method)');
+              } else {
+                console.log('Failed to send appointment confirmation email (both methods)');
+              }
+            }
+          })
+          .catch(err => {
+            console.error('Error in email sending:', err);
+          });
+      }
+    } catch (emailError) {
+      console.error('Error preparing email data:', emailError);
+      // Don't fail the appointment booking if email fails
+    }
+
+    res.json(appointment);
+  } catch (error) {
+    console.error('Error booking appointment:', error);
+    res.status(500).json({ error: 'Failed to book appointment' });
+  }
 });
 
 // Get appointments for a patient by ID
@@ -54,7 +111,7 @@ appointmentRouter.delete('/:id', async (req, res) => {
   res.json({ message: 'Cancelled' });
 });
 
-// ✅ Get appointments for a doctor
+// Get appointments for a doctor
 appointmentRouter.get('/doctor/:id', async (req, res) => {
   const doctorId = req.params.id;
 
@@ -63,24 +120,13 @@ appointmentRouter.get('/doctor/:id', async (req, res) => {
   }
 
   try {
-    const appointments = await Appointment.find({ doctor: doctorId })
-      .populate('patient', 'name')  // ✅ patient name
-      .populate('clinic', 'name');  // ✅ clinic name 
+    const appointments = await AppointmentModel.find({ doctor: doctorId })
+      .populate('patient', 'name')
+      .populate('clinic', 'name');
 
     res.json(appointments);
   } catch (err) {
     console.error('Error loading appointments:', err);
-    res.status(500).json({ error: 'Server error' });
-  }
-});
-appointmentRouter.get('/doctor/:id', async (req, res) => {
-  try {
-    const doctorId = req.params.id;
-    const appointments = await AppointmentModel.find({ doctor: doctorId })
-      .populate('patient', 'name')
-      .populate('clinic', 'name');
-    res.json(appointments);
-  } catch (err) {
     res.status(500).json({ error: 'Server error' });
   }
 });

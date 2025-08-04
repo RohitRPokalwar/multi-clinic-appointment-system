@@ -26,7 +26,7 @@ export default function HomePage() {
           <Link to="/login/doctor" className="cta-button secondary-button">
             <FaUserMd /> Doctor Login
           </Link>
-          <Link to="/login/admin" className="cta-button secondary-button admin-button">
+          <Link to="/login/admin" className="cta-button secondary-button">
             <FaHospital /> Admin Login
           </Link>
           <Link to="/register" className="cta-button secondary-button">

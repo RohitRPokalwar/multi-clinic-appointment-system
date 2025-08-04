@@ -9,10 +9,34 @@
   margin: 0;
   padding: 0;
   animation: fadeIn 0.8s ease-in-out;
-  background: linear-gradient(135deg, #001a35 0%, #002851 100%);
+  background: 
+    linear-gradient(135deg, rgba(16, 42, 66, 0.95) 0%, rgba(25, 60, 95, 0.95) 100%),
+    radial-gradient(circle at 20% 30%, rgba(0, 150, 136, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(33, 150, 243, 0.12) 0%, transparent 50%),
+    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="medical" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="2" fill="rgba(0,150,136,0.1)"/><path d="M45,45 L55,45 M50,40 L50,60" stroke="rgba(33,150,243,0.08)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23medical)"/></svg>'),
+    linear-gradient(45deg, #00695c 0%, #00838f 25%, #1976d2 50%, #303f9f 75%, #512da8 100%);
+  background-size: cover, 100% 100%, 100% 100%, 200px 200px, 400% 400%;
+  background-position: center, center, center, 0 0, 0% 0%;
+  animation: fadeIn 0.8s ease-in-out, medicalGradientShift 20s ease-in-out infinite;
   overflow-x: hidden;
   color: white;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  position: relative;
+}
+
+.home-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 25% 75%, rgba(0, 150, 136, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 75% 25%, rgba(33, 150, 243, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(25, 118, 210, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* ---------- Hero Section ---------- */
@@ -26,22 +50,26 @@
   text-align: center;
   padding: 4rem 2rem;
   overflow: hidden;
-  background-image: 
-    radial-gradient(circle at 75% 30%, rgba(0, 191, 255, 0.15) 0%, transparent 30%),
-    url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=2080&q=80');
-  background-size: cover;
-  background-position: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: 
+    linear-gradient(135deg, rgba(16, 42, 66, 0.4) 0%, rgba(25, 60, 95, 0.5) 100%),
+    radial-gradient(circle at 30% 30%, rgba(0, 150, 136, 0.25) 0%, transparent 50%),
+    radial-gradient(circle at 70% 70%, rgba(33, 150, 243, 0.2) 0%, transparent 50%);
+  background-size: cover, 100% 100%, 100% 100%;
+  background-position: center, center, center;
+  border-bottom: 1px solid rgba(0, 150, 136, 0.2);
   max-width: 100%;
   margin: 0 auto;
+  z-index: 1;
 }
 
 .hero-section::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(0, 20, 40, 0.85) 0%, rgba(0, 10, 30, 0.95) 100%);
-  backdrop-filter: blur(3px);
+  background: 
+    linear-gradient(135deg, rgba(0, 20, 40, 0.6) 0%, rgba(0, 10, 30, 0.7) 100%),
+    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(0,191,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+  backdrop-filter: blur(2px);
   z-index: 0;
 }
 
@@ -94,6 +122,7 @@
 }
 
 .cta-button {
+  cursor: pointer;
   padding: 1.25rem 2.5rem;
   font-size: 1.25rem;
   font-weight: 700;
@@ -145,26 +174,43 @@
 }
 
 /* Admin Button Special Effect */
+/* Updated Admin Button - now matches primary button style */
 .admin-button {
-  background: linear-gradient(135deg, #ff8a00 0%, #ff0058 100%);
-  box-shadow: 0 4px 20px rgba(255, 0, 88, 0.5);
-  animation: buttonFloat 3s ease-in-out infinite, pulse 2s infinite;
+  cursor: pointer;
+  background: linear-gradient(135deg, #0072ff 0%, #00c6ff 100%);
+  box-shadow: 0 4px 20px rgba(0, 114, 255, 0.5);
+  animation: buttonFloat 3s ease-in-out infinite;
 }
 
 .admin-button:hover {
-  background: linear-gradient(135deg, #e07a00 0%, #e00050 100%);
-  box-shadow: 0 8px 30px rgba(255, 0, 88, 0.7);
+  background: linear-gradient(135deg, #0062df 0%, #00b4e6 100%);
+  box-shadow: 0 8px 30px rgba(0, 114, 255, 0.7);
 }
 
 /* ---------- Features Section ---------- */
 .features-section {
   padding: 6rem 2rem;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 3rem;
   max-width: 1400px;
   margin: 0 auto;
   position: relative;
+  z-index: 1;
+}
+
+.features-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 30% 30%, rgba(0, 191, 255, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 70% 70%, rgba(102, 204, 255, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
 }
 
 .section-title {
@@ -190,6 +236,7 @@
 }
 
 .feature-card {
+  cursor: pointer;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 20px;
   padding: 3rem 2rem;
@@ -204,6 +251,7 @@
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
   overflow: hidden;
+  min-height: 300px;
 }
 
 .feature-card::after {
@@ -227,6 +275,14 @@
 
 .feature-card:hover::after {
   transform: scaleX(1);
+}
+
+.feature-icon {
+  font-size: 3rem;
+  color: #00bfff;
+  margin-bottom: 1.5rem;
+  animation: iconFloat 3s ease-in-out infinite;
+  filter: drop-shadow(0 4px 8px rgba(0, 191, 255, 0.3));
 }
 
 .feature-title {
@@ -272,6 +328,7 @@
 }
 
 .footer-links {
+  cursor: pointer;
   display: flex;
   justify-content: center;
   gap: 2rem;
@@ -288,6 +345,84 @@
 .footer-link:hover {
   color: #00bfff;
   text-decoration: underline;
+}
+
+/* ---------- Responsive Design ---------- */
+@media (max-width: 1200px) {
+  .hero-title {
+    font-size: 4rem;
+  }
+  
+  .features-section {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 3rem;
+    line-height: 1.2;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.4rem;
+  }
+  
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .cta-button {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .features-section {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 4rem 1rem;
+  }
+  
+  .feature-card {
+    padding: 2rem 1.5rem;
+    min-height: 250px;
+  }
+  
+  .feature-icon {
+    font-size: 2.5rem;
+  }
+  
+  .feature-title {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.2rem;
+  }
+  
+  .hero-section {
+    padding: 2rem 1rem;
+  }
+  
+  .feature-card {
+    padding: 1.5rem 1rem;
+  }
+  
+  .feature-icon {
+    font-size: 2rem;
+  }
+  
+  .feature-title {
+    font-size: 1.3rem;
+  }
 }
 
 /* ---------- Animations ---------- */
@@ -316,4 +451,25 @@
   0% { text-shadow: 0 4px 15px rgba(0, 191, 255, 0.3); }
   50% { text-shadow: 0 4px 25px rgba(0, 191, 255, 0.7); }
   100% { text-shadow: 0 4px 15px rgba(0, 191, 255, 0.3); }
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 0%; }
+  25% { background-position: 100% 0%; }
+  50% { background-position: 100% 100%; }
+  75% { background-position: 0% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+@keyframes medicalGradientShift {
+  0% { background-position: 0% 0%, center, center, 0 0, 0% 0%; }
+  25% { background-position: 0% 0%, center, center, 50px 50px, 100% 0%; }
+  50% { background-position: 0% 0%, center, center, 100px 100px, 100% 100%; }
+  75% { background-position: 0% 0%, center, center, 150px 50px, 0% 100%; }
+  100% { background-position: 0% 0%, center, center, 0 0, 0% 0%; }
+}
+
+@keyframes iconFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(5deg); }
 }

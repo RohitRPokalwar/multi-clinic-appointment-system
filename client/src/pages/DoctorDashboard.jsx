@@ -54,88 +54,90 @@ export default function DoctorDashboard() {
   };
 
   return (
-    <div className="container doctor-dashboard">
-      <div className="dashboard-header">
-        <h2 className="dashboard-title">
-          <FaUserMd className="dashboard-title-icon" /> Doctor Dashboard
-        </h2>
-        <button className="logout-btn" onClick={handleLogout}>
-          <FaSignOutAlt className="logout-icon" /> Logout
-        </button>
-      </div>
-      
-      {error && <div className="auth-error" style={{ marginBottom: '20px' }}>{error}</div>}
-      
-      {loading && <div className="loading-spinner"></div>}
-
-      {!loading && doctorInfo && (
-        <div className="doctor-info-card">
-          <h3 className="doctor-name">{doctorInfo.name}</h3>
-          
-          <div className="doctor-detail">
-            <FaEnvelope className="detail-icon" />
-            <span className="detail-label">Email:</span>
-            <span>{doctorInfo.email}</span>
-          </div>
-          
-          <div className="doctor-detail">
-            <FaStethoscope className="detail-icon" />
-            <span className="detail-label">Speciality:</span>
-            <span>{doctorInfo.speciality || 'Not specified'}</span>
-          </div>
-          
-          <div className="doctor-detail">
-            <FaHospital className="detail-icon" />
-            <span className="detail-label">Clinic:</span>
-            <span>{doctorInfo.clinic?.name || 'Not assigned'}</span>
-          </div>
+    <div className="doctor-dashboard">
+      <div className="dashboard-content">
+        <div className="dashboard-header">
+          <h2 className="dashboard-title">
+            <FaUserMd className="dashboard-title-icon" /> Doctor Dashboard
+          </h2>
+          <button className="logout-btn" onClick={handleLogout}>
+            <FaSignOutAlt className="logout-icon" /> Logout
+          </button>
         </div>
-      )}
-
-      <Link to="/doctor/slots" style={{ textDecoration: 'none' }}>
-        <button className="manage-slots-btn">
-          <FaCog style={{ marginRight: '8px' }} /> Manage Available Slots
-        </button>
-      </Link>
-
-      <div className="appointments-section">
-        <h3 className="section-title">
-          <FaClipboardList className="section-icon" /> Your Appointments
-        </h3>
         
-        {!loading && appointments.length === 0 && !error && (
-          <div className="no-appointments">
-            <p>No appointments scheduled at this time.</p>
+        {error && <div className="auth-error" style={{ marginBottom: '20px' }}>{error}</div>}
+        
+        {loading && <div className="loading-spinner"></div>}
+
+        {!loading && doctorInfo && (
+          <div className="doctor-info-card">
+            <h3 className="doctor-name">{doctorInfo.name}</h3>
+            
+            <div className="doctor-detail">
+              <FaEnvelope className="detail-icon" />
+              <span className="detail-label">Email:</span>
+              <span>{doctorInfo.email}</span>
+            </div>
+            
+            <div className="doctor-detail">
+              <FaStethoscope className="detail-icon" />
+              <span className="detail-label">Speciality:</span>
+              <span>{doctorInfo.speciality || 'Not specified'}</span>
+            </div>
+            
+            <div className="doctor-detail">
+              <FaHospital className="detail-icon" />
+              <span className="detail-label">Clinic:</span>
+              <span>{doctorInfo.clinic?.name || 'Not assigned'}</span>
+            </div>
           </div>
         )}
-        
-        {!loading && appointments.length > 0 && (
-          <ul className="appointments-list">
-            {appointments.map((a, index) => (
-              <li key={a._id} className="appointment-item" style={{animationDelay: `${index * 0.1}s`}}>
-                <div className="appointment-detail">
-                  <FaCalendarAlt className="appointment-icon" />
-                  <strong>Date:</strong> {formatDate(a.date)}
-                </div>
-                
-                <div className="appointment-detail">
-                  <FaClock className="appointment-icon" />
-                  <strong>Time:</strong> {a.time}
-                </div>
-                
-                <div className="appointment-detail">
-                  <FaUser className="appointment-icon" />
-                  <strong>Patient:</strong> {a.patient?.name || 'Not assigned'}
-                </div>
-                
-                <div className="appointment-detail">
-                  <FaHospital className="appointment-icon" />
-                  <strong>Clinic:</strong> {a.clinic?.name || 'Not specified'}
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
+
+        <Link to="/doctor/slots" style={{ textDecoration: 'none' }}>
+          <button className="manage-slots-btn">
+            <FaCog style={{ marginRight: '8px' }} /> Manage Available Slots
+          </button>
+        </Link>
+
+        <div className="appointments-section">
+          <h3 className="section-title">
+            <FaClipboardList className="section-icon" /> Your Appointments
+          </h3>
+          
+          {!loading && appointments.length === 0 && !error && (
+            <div className="no-appointments">
+              <p>No appointments scheduled at this time.</p>
+            </div>
+          )}
+          
+          {!loading && appointments.length > 0 && (
+            <ul className="appointments-list">
+              {appointments.map((a, index) => (
+                <li key={a._id} className="appointment-item" style={{animationDelay: `${index * 0.1}s`}}>
+                  <div className="appointment-detail">
+                    <FaCalendarAlt className="appointment-icon" />
+                    <strong>Date:</strong> {formatDate(a.date)}
+                  </div>
+                  
+                  <div className="appointment-detail">
+                    <FaClock className="appointment-icon" />
+                    <strong>Time:</strong> {a.time}
+                  </div>
+                  
+                  <div className="appointment-detail">
+                    <FaUser className="appointment-icon" />
+                    <strong>Patient:</strong> {a.patient?.name || 'Not assigned'}
+                  </div>
+                  
+                  <div className="appointment-detail">
+                    <FaHospital className="appointment-icon" />
+                    <strong>Clinic:</strong> {a.clinic?.name || 'Not specified'}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
     </div>
   );
