@@ -1,0 +1,213 @@
+/* ================================
+   Home Page Styles
+   ================================ */
+
+/* ---------- Root Container ---------- */
+.home-container {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  animation: fadeIn 0.8s ease-in-out;
+  background: linear-gradient(135deg, #001a14 0%, #002a22 100%); /* unified green-dark theme */
+  overflow-x: hidden;
+  color: white;
+}
+
+/* ---------- Hero Section ---------- */
+.hero-section {
+  position: relative;
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 4rem 2rem;
+  overflow: hidden;
+  background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=2080&q=80');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0, 42, 34, 0.75) 0%, rgba(0, 26, 20, 0.85) 100%);
+  backdrop-filter: blur(5px);
+  z-index: 0;
+}
+
+/* ---------- Hero Title & Subtitle ---------- */
+.hero-title {
+  font-size: 4rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  animation: slideIn 0.8s ease-out forwards;
+  line-height: 1.2;
+  max-width: 900px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  color: var(--text-light);
+  margin-bottom: 2.5rem;
+  max-width: 800px;
+  line-height: 1.6;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  animation: slideIn 0.8s ease-out 0.2s forwards;
+  animation-fill-mode: forwards;
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- Call-to-Action Buttons ---------- */
+.cta-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  opacity: 0;
+  animation: slideIn 0.8s ease-out 0.4s forwards;
+  animation-fill-mode: forwards;
+  position: relative;
+  z-index: 1;
+}
+
+.cta-button {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* Primary Button */
+.primary-button {
+  background: var(--primary-color);
+  color: white;
+  box-shadow: 0 4px 15px rgba(0, 209, 178, 0.4);
+  border: none;
+}
+.primary-button:hover {
+  background: var(--primary-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 209, 178, 0.6);
+}
+
+/* Secondary Button */
+.secondary-button {
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  border: 2px solid var(--primary-color);
+  backdrop-filter: blur(5px);
+}
+.secondary-button:hover {
+  background: rgba(0, 209, 178, 0.15);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 209, 178, 0.3);
+  border-color: var(--primary-dark);
+}
+
+/* Admin Button - same style as others but gold accent */
+.admin-button {
+  background: rgba(255, 215, 0, 0.15);
+  color: white;
+  border: 2px solid gold;
+  backdrop-filter: blur(5px);
+}
+.admin-button:hover {
+  background: rgba(255, 215, 0, 0.25);
+  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+  border-color: #ffd700;
+  transform: translateY(-3px);
+}
+
+/* ---------- Features Section ---------- */
+.features-section {
+  padding: 5rem 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.feature-card {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 1;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  border-color: var(--primary-color);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.feature-icon {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  color: var(--primary-color);
+  animation: float 6s ease-in-out infinite;
+}
+
+.feature-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.feature-description {
+  color: #ddd;
+  line-height: 1.6;
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  padding: 2rem;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  margin-top: 3rem;
+  position: relative;
+}
+
+.footer-text {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  position: relative;
+  z-index: 1;
+}

@@ -1,13 +1,180 @@
 /* client/src/index.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --primary-color: #00d1b2;
+  --primary-dark: #00b89c;
+  --secondary-color: #2a2a72;
+  --accent-color: #ff3860;
+  --background-dark: #121212;
+  --text-light: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.7);
+  --border-light: rgba(255, 255, 255, 0.2);
+  --card-bg: rgba(20, 20, 40, 0.8);
+  --input-bg: rgba(0, 0, 0, 0.2);
+  --shadow-color: rgba(0, 0, 0, 0.35);
+  --transition-speed: 0.3s;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   margin: 0;
-  font-family: sans-serif;
-  background: #f5f5f5;
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--background-dark);
+  background-image: url('./pages/auth-background.svg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  min-height: 100vh;
+  color: var(--text-light);
+  line-height: 1.6;
+  overflow-x: hidden;
 }
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-dark);
+}
+
+/* Container styling */
 .container {
+  max-width: 1200px;
+  margin: 2rem auto;
   padding: 2rem;
+  animation: fadeIn 0.5s ease-in-out;
 }
+
+/* Typography */
 .title {
-  font-size: 2rem;
-  color: #333;
+  font-size: 2.2rem;
+  color: var(--text-light);
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-light);
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+p {
+  margin-bottom: 1rem;
+  color: var(--text-muted);
+}
+
+/* Button styling */
+button, .btn {
+  cursor: pointer;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all var(--transition-speed) ease;
+  font-family: 'Poppins', sans-serif;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button:hover, .btn:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+button:active, .btn:active {
+  transform: translateY(0);
+}
+
+/* Form elements */
+input, select, textarea {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Error message */
+.auth-error {
+  background-color: rgba(255, 56, 96, 0.2);
+  border: 1px solid var(--accent-color);
+  color: var(--text-light);
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+/* Global animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding: 1.5rem;
+    margin: 1rem auto;
+  }
+  
+  .title {
+    font-size: 1.8rem;
+  }
+  
+  button, .btn {
+    padding: 0.6rem 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+  }
 }

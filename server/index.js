@@ -13,8 +13,12 @@ app.use(cors());
 app.use(express.json());
 app.use('/api/doctor', require('./routes/doctor'));
 app.use('/api/auth', require('./routes/auth'));
-// Apply verifyToken middleware to admin routes
-app.use('/api/admin', verifyToken, require('./routes/admin'));
+// Set up admin routes with public and protected endpoints
+const adminRoutes = require('./routes/admin');
+// Public routes don't require authentication
+app.use('/api/admin/clinics', adminRoutes.publicRoutes);
+// Protected routes require authentication
+app.use('/api/admin', verifyToken, adminRoutes);
 app.use('/api/appointments', require('./routes/appointment'));
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api', authRoutes); // ✅ So /api/register will work

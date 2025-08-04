@@ -2,7 +2,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useParams } from 'react-router-dom';
 
-import LandingPage from './pages/LandingPage';
+import HomePage from './pages/HomePage';
 import PatientDashboard from './pages/PatientDashboard';
 import BookAppointment from './pages/BookAppointment';
 import LoginPage from './pages/LoginPage';
@@ -12,10 +12,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 
 import DoctorDashboard from './pages/DoctorDashboard'; // ✅ real one
 import DoctorSlotManager from './pages/DoctorSlotManager'; // ✅ real one
-
-const MyAppointments = () => (
-  <div className="container"><h2 className="title">My Appointments</h2></div>
-);
+import MyAppointments from './pages/MyAppointments'; // Import the real MyAppointments component
 const NotFound = () => (
   <div className="container"><h2 className="title">404 - Page Not Found</h2></div>
 );
@@ -30,7 +27,7 @@ export default function App() {
     <Router>
       <Routes>
         {/* Public */}
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/login/:role" element={<LoginRouter />} />
         <Route path="/register" element={<RegisterPage />} />
 

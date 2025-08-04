@@ -1,6 +1,7 @@
 const mongoose = require('mongoose'); // make sure this is at the top
 const express = require('express');
 const router = express.Router();
+const publicRouter = express.Router();
 const Clinic = require('../models/Clinic');
 const User = require('../models/user'); // ✅ fix typo: should be user.js
 const Appointment = require('../models/Appointment');
@@ -9,6 +10,18 @@ const bcrypt = require('bcryptjs');
 // ==========================
 // ✅ CLINIC CRUD
 // ==========================
+// Public route for fetching clinics
+publicRouter.get('/', async (req, res) => {
+  try {
+    const clinics = await Clinic.find();
+    res.json(clinics);
+  } catch (err) {
+    console.error('Error fetching clinics:', err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Protected route for fetching clinics (admin only)
 router.get('/clinics', async (req, res) => {
   try {
     const clinics = await Clinic.find();
@@ -131,6 +144,26 @@ router.get('/doctors/:id', async (req, res) => {
 // ==========================
 // ✅ GET DOCTORS BY CLINIC
 // ==========================
+// Public route for getting doctors by clinic
+publicRouter.get('/:clinicId/doctors', async (req, res) => {
+  try {
+    const clinicId = req.params.clinicId;
+    console.log('Fetching doctors for clinic ID (public route):', clinicId);
+    
+    // Validate clinic ID
+    if (!mongoose.Types.ObjectId.isValid(clinicId)) {
+      return res.status(400).json({ error: 'Invalid clinic ID format' });
+    }
+    
+    const doctors = await User.find({ role: 'doctor', clinic: clinicId }).populate('clinic', 'name');
+    res.json(doctors);
+  } catch (err) {
+    console.error('Error fetching doctors by clinic (public):', err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Protected route for getting doctors by clinic
 router.get('/clinics/:clinicId/doctors', async (req, res) => {
   try {
     const clinicId = req.params.clinicId;
@@ -254,3 +287,4 @@ router.delete('/appointments/:id', async (req, res) => {
 });
 
 module.exports = router;
+module.exports.publicRoutes = publicRouter;

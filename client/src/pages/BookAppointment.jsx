@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import API from '../services/api';
 import './BookAppointment.css';
 import './AdminDashboard.css';
 
@@ -16,11 +17,24 @@ const [hasCheckedSlots, setHasCheckedSlots] = useState(false);
 
   // Fetch all clinics on mount
   useEffect(() => {
-    axios.get('/api/admin/clinics')
-      .then(res => setClinics(res.data))
+    setError(null); // Clear any previous errors
+    
+    // Use the API service with proper error handling
+    API.get('/admin/clinics')
+      .then(res => {
+        if (res.data && Array.isArray(res.data)) {
+          setClinics(res.data);
+          if (res.data.length === 0) {
+            setError('No clinics available at the moment.');
+          }
+        } else {
+          console.error('Invalid clinic data format:', res.data);
+          setError('Error loading clinics: Invalid data format');
+        }
+      })
       .catch(err => {
         console.error('Error loading clinics:', err);
-        setError('Failed to load clinics.');
+        setError('Failed to load clinics. Please try again later.');
       });
 
     const patientId = localStorage.getItem('userId');
@@ -29,7 +43,7 @@ const [hasCheckedSlots, setHasCheckedSlots] = useState(false);
 
   // Fetch doctors based on clinic
   const fetchDoctors = (clinicId) => {
-    axios.get(`/api/admin/clinics/${clinicId}/doctors`)
+    API.get(`/admin/clinics/${clinicId}/doctors`)
       .then(res => {
         setDoctors(res.data);
         setError(null);
@@ -50,7 +64,7 @@ const [hasCheckedSlots, setHasCheckedSlots] = useState(false);
 
   setHasCheckedSlots(true); // mark that user initiated a slot check
 
-  axios.get(`/api/doctor/${form.doctor}/slots?date=${form.date}`)
+  API.get(`/doctor/${form.doctor}/slots?date=${form.date}`)
     .then(res => {
       setSlots(res.data);
       if (res.data.length === 0) {
@@ -86,7 +100,7 @@ const [hasCheckedSlots, setHasCheckedSlots] = useState(false);
       patient: patientId,
     };
 
-    axios.post('/api/appointments', payload)
+    API.post('/appointments', payload)
       .then(() => {
         alert('✅ Appointment booked successfully!');
         setForm({ clinic: '', doctor: '', date: '', time: '', patient: patientId });
