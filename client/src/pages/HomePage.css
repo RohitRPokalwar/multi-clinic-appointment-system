@@ -1,5 +1,5 @@
 /* ================================
-   Home Page Styles
+   Home Page Styles - Blue Theme (Hackathon Enhanced)
    ================================ */
 
 /* ---------- Root Container ---------- */
@@ -9,15 +9,16 @@
   margin: 0;
   padding: 0;
   animation: fadeIn 0.8s ease-in-out;
-  background: linear-gradient(135deg, #001a14 0%, #002a22 100%); /* unified green-dark theme */
+  background: linear-gradient(135deg, #001a35 0%, #002851 100%);
   overflow-x: hidden;
   color: white;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 /* ---------- Hero Section ---------- */
 .hero-section {
   position: relative;
-  min-height: 90vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -25,10 +26,11 @@
   text-align: center;
   padding: 4rem 2rem;
   overflow: hidden;
-  background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=2080&q=80');
+  background-image: 
+    radial-gradient(circle at 75% 30%, rgba(0, 191, 255, 0.15) 0%, transparent 30%),
+    url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=2080&q=80');
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   max-width: 100%;
   margin: 0 auto;
@@ -38,49 +40,52 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(0, 42, 34, 0.75) 0%, rgba(0, 26, 20, 0.85) 100%);
-  backdrop-filter: blur(5px);
+  background: linear-gradient(135deg, rgba(0, 20, 40, 0.85) 0%, rgba(0, 10, 30, 0.95) 100%);
+  backdrop-filter: blur(3px);
   z-index: 0;
 }
 
-/* ---------- Hero Title & Subtitle ---------- */
+/* ---------- Hero Title ---------- */
 .hero-title {
-  font-size: 4rem;
-  font-weight: 800;
+  font-size: 5rem;
+  font-weight: 900;
   margin-bottom: 1.5rem;
-  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+  background: linear-gradient(90deg, #00bfff, #66ccff, #00bfff);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  animation: slideIn 0.8s ease-out forwards;
-  line-height: 1.2;
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  animation: slideIn 0.8s ease-out forwards, titleGlow 3s ease-in-out infinite alternate;
+  line-height: 1.1;
   max-width: 900px;
   position: relative;
   z-index: 1;
+  letter-spacing: -0.05em;
 }
 
+/* ---------- Hero Subtitle ---------- */
 .hero-subtitle {
-  font-size: 1.5rem;
-  color: var(--text-light);
+  font-size: 1.75rem;
+  color: #e0f7ff;
   margin-bottom: 2.5rem;
   max-width: 800px;
   line-height: 1.6;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
   opacity: 0;
   animation: slideIn 0.8s ease-out 0.2s forwards;
   animation-fill-mode: forwards;
   position: relative;
   z-index: 1;
+  font-weight: 300;
 }
 
-/* ---------- Call-to-Action Buttons ---------- */
+/* ---------- Unified CTA Buttons ---------- */
 .cta-buttons {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 1.5rem;
-  margin-top: 1rem;
+  margin-top: 2rem;
   opacity: 0;
   animation: slideIn 0.8s ease-out 0.4s forwards;
   animation-fill-mode: forwards;
@@ -89,125 +94,226 @@
 }
 
 .cta-button {
-  padding: 1rem 2rem;
-  font-size: 1.1rem;
-  font-weight: 600;
+  padding: 1.25rem 2.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
   border-radius: 50px;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: all 0.3s ease, transform 0.2s ease-in-out;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-}
-
-/* Primary Button */
-.primary-button {
-  background: var(--primary-color);
+  gap: 0.75rem;
   color: white;
-  box-shadow: 0 4px 15px rgba(0, 209, 178, 0.4);
+  background: linear-gradient(135deg, #0072ff 0%, #00c6ff 100%);
   border: none;
-}
-.primary-button:hover {
-  background: var(--primary-dark);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(0, 209, 178, 0.6);
-}
-
-/* Secondary Button */
-.secondary-button {
-  background: rgba(255, 255, 255, 0.05);
-  color: white;
-  border: 2px solid var(--primary-color);
-  backdrop-filter: blur(5px);
-}
-.secondary-button:hover {
-  background: rgba(0, 209, 178, 0.15);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(0, 209, 178, 0.3);
-  border-color: var(--primary-dark);
+  box-shadow: 0 4px 20px rgba(0, 114, 255, 0.5);
+  position: relative;
+  overflow: hidden;
+  animation: buttonFloat 3s ease-in-out infinite;
+  min-width: 200px;
 }
 
-/* Admin Button - same style as others but gold accent */
+.cta-button::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0) 60%
+  );
+  transform: rotate(30deg);
+  transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 8px 30px rgba(0, 114, 255, 0.7);
+  background: linear-gradient(135deg, #0062df 0%, #00b4e6 100%);
+}
+
+.cta-button:hover::before {
+  left: 100%;
+}
+
+.cta-button:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Admin Button Special Effect */
 .admin-button {
-  background: rgba(255, 215, 0, 0.15);
-  color: white;
-  border: 2px solid gold;
-  backdrop-filter: blur(5px);
+  background: linear-gradient(135deg, #ff8a00 0%, #ff0058 100%);
+  box-shadow: 0 4px 20px rgba(255, 0, 88, 0.5);
+  animation: buttonFloat 3s ease-in-out infinite, pulse 2s infinite;
 }
+
 .admin-button:hover {
-  background: rgba(255, 215, 0, 0.25);
-  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
-  border-color: #ffd700;
-  transform: translateY(-3px);
+  background: linear-gradient(135deg, #e07a00 0%, #e00050 100%);
+  box-shadow: 0 8px 30px rgba(255, 0, 88, 0.7);
 }
 
 /* ---------- Features Section ---------- */
 .features-section {
-  padding: 5rem 2rem;
+  padding: 6rem 2rem;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  max-width: 1200px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 3rem;
+  max-width: 1400px;
   margin: 0 auto;
   position: relative;
-  z-index: 1;
+}
+
+.section-title {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(90deg, #00bfff, #66ccff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 800;
+}
+
+.section-subtitle {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-size: 1.25rem;
+  color: #b0d7ff;
+  max-width: 800px;
+  margin: 0 auto 3rem;
+  line-height: 1.6;
 }
 
 .feature-card {
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  padding: 2.5rem 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 3rem 2rem;
   text-align: center;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   flex-direction: column;
   align-items: center;
   height: 100%;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
-  z-index: 1;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+  overflow: hidden;
+}
+
+.feature-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #00bfff, #0066cc);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
 }
 
 .feature-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-  border-color: var(--primary-color);
-  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-15px) scale(1.03);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  border-color: rgba(0, 191, 255, 0.3);
 }
 
-.feature-icon {
-  font-size: 3rem;
-  margin-bottom: 1.5rem;
-  color: var(--primary-color);
-  animation: float 6s ease-in-out infinite;
+.feature-card:hover::after {
+  transform: scaleX(1);
 }
 
 .feature-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(90deg, #ffffff, #e0f7ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .feature-description {
-  color: #ddd;
-  line-height: 1.6;
+  color: #d9f2ff;
+  line-height: 1.7;
+  font-size: 1.1rem;
 }
 
 /* ---------- Footer ---------- */
 .footer {
-  padding: 2rem;
+  padding: 3rem 2rem;
   text-align: center;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   margin-top: 3rem;
+  background: rgba(0, 15, 30, 0.9);
   position: relative;
 }
 
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #00bfff, transparent);
+}
+
 .footer-text {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  position: relative;
-  z-index: 1;
+  color: #b0c4de;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.footer-link {
+  color: #66ccff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  font-weight: 500;
+}
+
+.footer-link:hover {
+  color: #00bfff;
+  text-decoration: underline;
+}
+
+/* ---------- Animations ---------- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes buttonFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(255, 0, 88, 0.7); }
+  70% { box-shadow: 0 0 0 15px rgba(255, 0, 88, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 0, 88, 0); }
+}
+
+@keyframes titleGlow {
+  0% { text-shadow: 0 4px 15px rgba(0, 191, 255, 0.3); }
+  50% { text-shadow: 0 4px 25px rgba(0, 191, 255, 0.7); }
+  100% { text-shadow: 0 4px 15px rgba(0, 191, 255, 0.3); }
 }

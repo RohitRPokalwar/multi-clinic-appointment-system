@@ -15,12 +15,37 @@ appointmentRouter.post('/', async (req, res) => {
   res.json(appointment);
 });
 
-// Get appointments for a patient
+// Get appointments for a patient by ID
 appointmentRouter.get('/mine/:patientId', async (req, res) => {
-  const list = await AppointmentModel.find({ patient: req.params.patientId })
-    .populate('doctor', 'name email speciality')
-    .populate('clinic', 'name');
-  res.json(list);
+  try {
+    const list = await AppointmentModel.find({ patient: req.params.patientId })
+      .populate('doctor', 'name email speciality')
+      .populate('clinic', 'name');
+    res.json(list);
+  } catch (err) {
+    console.error('Error fetching appointments by patient ID:', err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Get appointments for the logged-in patient
+appointmentRouter.get('/mine', async (req, res) => {
+  try {
+    // Get patient ID from token if available
+    const patientId = req.user ? req.user.id : null;
+    
+    if (!patientId) {
+      return res.status(401).json({ error: 'Authentication required' });
+    }
+    
+    const list = await AppointmentModel.find({ patient: patientId })
+      .populate('doctor', 'name email speciality')
+      .populate('clinic', 'name');
+    res.json(list);
+  } catch (err) {
+    console.error('Error fetching appointments for logged-in patient:', err);
+    res.status(500).json({ error: 'Server error' });
+  }
 });
 
 // Cancel appointment

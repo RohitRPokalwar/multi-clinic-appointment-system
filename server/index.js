@@ -19,8 +19,7 @@ const adminRoutes = require('./routes/admin');
 app.use('/api/admin/clinics', adminRoutes.publicRoutes);
 // Protected routes require authentication
 app.use('/api/admin', verifyToken, adminRoutes);
-app.use('/api/appointments', require('./routes/appointment'));
-app.use('/api/appointments', appointmentRoutes);
+app.use('/api/appointments', verifyToken, appointmentRoutes);
 app.use('/api', authRoutes); // ✅ So /api/register will work
 
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })

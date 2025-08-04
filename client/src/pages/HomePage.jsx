@@ -79,6 +79,16 @@ export default function HomePage() {
             to provide personalized care and improve patient outcomes.
           </p>
         </div>
+        <div className="feature-card">
+          <div className="feature-icon">
+            <FaHeartbeat />
+          </div>
+          <h3 className="feature-title">Centered Care</h3>
+          <p className="feature-description">
+            Experience healthcare that puts you first. Our system is designed
+            to provide personalized care and improve patient outcomes.
+          </p>
+        </div>
         
         <div className="feature-card">
           <div className="feature-icon">

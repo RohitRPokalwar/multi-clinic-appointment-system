@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import API from '../services/api';
 import { FaCalendarAlt, FaUserMd, FaHospital, FaClock, FaTrashAlt } from 'react-icons/fa';
 import './MyAppointments.css';
 
@@ -10,7 +10,7 @@ export default function MyAppointments() {
 
   useEffect(() => {
     setLoading(true);
-    axios.get('/api/appointments/mine')
+    API.get('/appointments/mine')
       .then(res => {
         setAppointments(res.data);
         setLoading(false);
@@ -25,7 +25,7 @@ export default function MyAppointments() {
   const cancel = (id) => {
     if (window.confirm('Are you sure you want to cancel this appointment?')) {
       setLoading(true);
-      axios.delete(`/api/appointments/${id}`)
+      API.delete(`/appointments/${id}`)
         .then(() => {
           setAppointments(appointments.filter(a => a._id !== id));
           setLoading(false);
