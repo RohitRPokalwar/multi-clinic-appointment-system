@@ -72,7 +72,7 @@ A professional, full-stack healthcare appointment booking system with beautiful 
 
    ```bash
    git clone <repository-url>
-   cd Hackathon-1
+   cd repository
    ```
 
 2. **Install dependencies**
@@ -208,12 +208,6 @@ The application is fully responsive and optimized for:
 3. Make your changes
 4. Test thoroughly
 5. Submit a pull request
-
-## 📄 License
-
-This project is licensed under the MIT License.
-
----
 
 **Built with ❤️ for modern healthcare management**
 ```
