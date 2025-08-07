@@ -20,7 +20,7 @@ export default function HomePage() {
     // Simulate a network request or asset loading
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 3000); // Show loader for 2 seconds
+    }, 3000); // Show loader for 3 seconds
 
     return () => clearTimeout(timer);
   }, []);
