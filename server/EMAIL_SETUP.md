@@ -20,7 +20,7 @@ JWT_SECRET=your_jwt_secret_here
 2. Enable 2-Factor Authentication if not already enabled
 3. Go to Security → App passwords
 4. Generate a new app password for "Mail"
-5. Replace `your_app_password_here` in the .env file with the generated password
+5. Replace `your_app_password_here` in the .env file with the generated password 
 
 ### 3. Email Features
 
