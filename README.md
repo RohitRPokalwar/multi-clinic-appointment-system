@@ -56,7 +56,6 @@ A professional, full-stack healthcare appointment booking system with beautiful 
 - **Mongoose** - ODM
 - **JWT** - Authentication
 - **Nodemailer** - Email service
-- **bcrypt** - Password hashing
 
 ## 📦 Installation
 
@@ -172,7 +171,7 @@ A professional, full-stack healthcare appointment booking system with beautiful 
 
 ### Email Setup
 
-See `server/EMAIL_SETUP.md` for detailed email configuration instructions.
+See and read  `server/EMAIL_SETUP.md` for detailed email configuration instructions.
 
 ### Database
 
