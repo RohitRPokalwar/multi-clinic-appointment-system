@@ -20,7 +20,7 @@ export default function HomePage() {
     // Simulate a network request or asset loading
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 2000); // Show loader for 2 seconds
+    }, 3000); // Show loader for 2 seconds
 
     return () => clearTimeout(timer);
   }, []);
@@ -66,7 +66,7 @@ export default function HomePage() {
           </Link>
         </div>
       </section>
-
+      <hr />
       {/* ====================================================
           MOVED "How It Works" Section to be after the Hero
           ==================================================== */}
@@ -87,7 +87,7 @@ export default function HomePage() {
             <div className="step-icon"><FaSearch /></div>
             <h3 className="step-title">Find Your Doctor</h3>
             <p className="step-description">
-              Search our network of verified specialists and clinics. Filter by location, specialty, and availability.
+              Search our network of verified specialists and clinics. Filter by clinic name, specialty, and availability.
             </p>
           </div>
           <div className="step-card">
@@ -95,12 +95,12 @@ export default function HomePage() {
             <div className="step-icon"><FaCalendarAlt /></div>
             <h3 className="step-title">Book & Confirm</h3>
             <p className="step-description">
-              Select a suitable time slot and book your appointment instantly. Get reminders and manage your schedule with ease.
+              Select a suitable time slot and book your appointment instantly. Get reminder and manage your schedule with ease.
             </p>
           </div>
         </div>
       </section>
-
+        <hr />
       <section className="features-section">
         <h2 className="section-title">Why Choose Our Platform?</h2>
         <p className="section-subtitle">
@@ -166,21 +166,15 @@ export default function HomePage() {
           <div className="feature-icon">
             <FaCalendarCheck />
           </div>
-          <h3 className="feature-title">Smart Scheduling</h3>
+          <h3 className="feature-title">Scheduling</h3>
           <p className="feature-description">
-            AI-powered scheduling that learns your preferences and suggests
-            optimal appointment times based on your availability and doctor schedules.
+            You can book appointment for your preferred doctor and time slot.
           </p>
         </div>
       </section>
       
       <footer className="footer">
         <p className="footer-text">© 2025 Healthcare Appointment System. All rights reserved.</p>
-        <div className="footer-links">
-          <a href="/privacy" className="footer-link">Privacy Policy</a>
-          <a href="/terms" className="footer-link">Terms of Service</a>
-          <a href="/contact" className="footer-link">Contact Us</a>
-        </div>
       </footer>
     </div>
   );
